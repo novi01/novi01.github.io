@@ -78,7 +78,7 @@ https://templatemo.com/tm-531-reflux
               </div>
               <div class="col-md-12">
                 <div class="center-text">
-                  <p><h4>My name is Novi Nur Aisah, I am currently pursuing a diploma at the Batam State Polytechnic majoring in informatics engineering. Have an interest in web programs, graphic design, and always try to try new things.</h4></p>
+                  <p><h4>My name is Novi Nur Aisah, I am currently pursuing a diploma at the Batam State Polytechnic majoring in informatics engineering. Have an interest in web programs, graphic design and motivated to try new things</h4></p>
                 </div>
               </div>
             </div>
@@ -151,7 +151,13 @@ https://templatemo.com/tm-531-reflux
           <div class="row">
             <div class="right-content">
               <div class="container">
-                <form id="contact" action="" method="post">
+                <div class="alert alert-success alert-dismissible fade show d-none my-alerts" role="alert">
+                  <strong>Thanks!</strong> Your message has been received.
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form id="contact" action="" method="post" name="nv-contact-form">
                   <div class="row">
                     <div class="col-md-6">
                       <fieldset>
@@ -175,7 +181,12 @@ https://templatemo.com/tm-531-reflux
                     </div>
                     <div class="col-md-12">
                       <fieldset>
-                        <button type="submit" id="form-submit" class="button">Send Message</button>
+                        <button type="submit" id="form-submit" class="button btn-send">Send Message</button>
+                        <button class="btn btn-light d-none" type="button" disabled>
+  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+  Loading...
+</button>
+
                       </fieldset>
                     </div>
                   </div>
@@ -239,6 +250,37 @@ https://templatemo.com/tm-531-reflux
       $(window).scroll(function () {
         checkSection();
       });
+    </script> 
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbzzKBzm-59yAvUCBcFHNLky24hh8SN2MptbfLXgKy4QBQ8g9K9QVcUqh9pVS_Ou1veG/exec'
+      const form = document.forms['nv-contact-form'];
+      const btnSend= document.querySelector('.btn-send');
+      const btnLoading= document.querySelector('.btn-light');
+      const myAlers= document.querySelector('.my-alerts');
+    
+      form.addEventListener('submit', e => {
+        e.preventDefault()
+
+        // tampilkan tombol loading, hilangkan tombol kirim 
+        btnLoading.classList.toggle('d-none');
+        btnSend.classList.toggle('d-none');
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+          .then(response => {
+            // tampilkan tombol kirim, hilangkan tombol loading 
+            btnLoading.classList.toggle('d-none');
+        btnSend.classList.toggle('d-none');
+
+        // reset form
+        form.reset();
+
+        // tampilkan alert
+        myAlers.classList.toggle('d-none');
+
+            console.log('Success!', response)
+          })
+          .catch(error => console.error('Error!', error.message))
+      })
     </script>
   </body>
 </html>
